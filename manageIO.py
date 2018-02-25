@@ -1,48 +1,5 @@
 import math
 
-
-#TODO convert this function so that it works in its exported form
-def read(Gridworld):
-    '''
-    Reads a grid file from command line arguments
-
-    :return: grid as list of lists
-    each sublist is a row
-    e.g. grid[0][1] accesses the second element in the first sublist aka the second element in row 0
-    grid[0][1] corresponds to (1,0) in "point notation" (x,y)
-    '''
-
-    file = ""
-    try:
-        # access command line arguments, if not empty string
-        # (sys.argv[0] is program file, sys.argv[1] ist first argument)
-        if sys.argv[1]:
-            file += sys.argv[1]
-    except IndexError:  # sys.argv[1] unspecified means that no further argument is given
-        print("Please specify a grid file")
-        exit(1)  # stop execution of program
-
-    grid = []  # empty list as grid
-
-    try:
-        # open file
-        with open(file, "r") as f:
-            line = f.readline()  # read first line
-
-            # while line not empty (still new line to read)
-            while line:
-                stripped_line = line.strip("\n")  # remove line break
-                splitted_line = stripped_line.split(" ")  # split line at whitespace to get elements
-                grid.append(splitted_line)  # append to grid to make list of lists
-                line = f.readline()  # read next line
-
-    except IOError:  # catch IO error from opening file
-        print("Gridfile could not be found: Please specify a valid file (with path).")
-        exit(1)
-
-    self.grid = grid
-
-
 def printPolicy(Gridworld):
     '''
     Prints policy for each field in the grid correctly formatted in rows and columns
@@ -81,7 +38,7 @@ def printValues(Gridworld):
             # use of ceiling function for rounding up to three decimals is used instead of
             # Python's "round" function since it delivered better results in this program
             else:
-                print("{0:5}".format(math.ceil(Gridworld.values[i][j]*1000)/1000), end=" ")
+                print("{0:5}".format(math.ceil(Gridworld.values[i][j] * 1000) / 1000), end=" ")
         print("\n", end="")
 
 
@@ -98,3 +55,74 @@ def printGrid(Gridworld):
             print(elem, end="")  # end="" to substitute the default end of print which is \n by nothing
 
         print("\n", end="")  # line break after each row
+
+
+def readUserInput(Gridworld):
+    '''
+    Reads in user input:
+    - gridfile = grid to perform q-learning on
+    - processing mode = one of three possibilities
+        - manual: stepwise for each episode, matrix for each step
+        - semi-automatic: each episode automatic, matrices printed after that
+        - automatic: complete algorithm, matrices printed once in the end
+    - gamma value = discount factor
+    - epsilon = for epsilon soft policy
+    - alpha = learning rate
+    - reward = penalty for each step
+    - goal = reward at the goal state
+    - pitfall = penalty in the trap state
+    '''
+
+    # read in grid file
+    inputPath = input("Please specify a valid grid file (no need for the \".grid\"-ending): ")
+    pathToGrid = inputPath.lower() + ".grid"
+
+    grid = []  # empty list as grid
+
+    try:
+        # open file
+        with open(pathToGrid, "r") as f:
+            line = f.readline()  # read first line
+
+            # while line not empty (still new line to read)
+            while line:
+                stripped_line = line.strip("\n")  # remove line break
+                splitted_line = stripped_line.split(" ")  # split line at whitespace to get elements
+                grid.append(splitted_line)  # append to grid to make list of lists
+                line = f.readline()  # read next line
+
+    except IOError:  # catch IO error from opening file
+        print("Gridfile could not be found: Please specify a valid file (no need for the .grid-ending).")
+        exit(1)
+
+    # read in processing mode from user (a or m)
+    processingMode = input("Please choose between manual, semi-automated and automated processing (a/s/m): ")
+    while not (processingMode.lower() == "a" or processingMode.lower() == "m" or processingMode.lower() == "s"):
+        processingMode = input("Please choose between manual, semi-automated and automated processing (a/s/m): ")
+
+    # read in gamma as float
+    gamma = float(input("Please specify a gamma value between 0 and 1: "))
+    while gamma > 1.0 or gamma < 0.0:
+        gamma = float(input("Please specify a gamma value between 0 and 1: "))
+
+    # read in epsilon value as float
+    epsilon = float(input("Please specify an epsilon for the epsilon-soft-policy between 0 and 1: "))
+    while epsilon > 1.0 or epsilon < 0.0:
+        epsilon = float(input("Please specify an epsilon for the epsilon-soft-policy value between 0 and 1: "))
+
+    # read in learning rate
+    alpha = float(input("Please specify a learning rate alpha between 0 and 1: "))
+    while alpha > 1.0 or alpha < 0.0:
+        alpha = float(input("Please specify a learning rate alpha value between 0 and 1: "))
+
+    # assign the values to the Gridworld
+    Gridworld.grid = grid
+    Gridworld.processingMode = processingMode.lower()
+    Gridworld.gamma = gamma
+    Gridworld.alpha = alpha
+    Gridworld.epsilon = epsilon
+
+    # @TODO maybe implement goal > pitfall?
+    Gridworld.REWARD = float(input("Please specify the reward (or penalty) for each step: "))
+    Gridworld.GOAL = float(input("Please specify the reward of the goal state: "))
+    Gridworld.PITFALL = float(input("Please specify the penalty for the pitfall state: "))
