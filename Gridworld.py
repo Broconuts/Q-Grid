@@ -1,6 +1,5 @@
 import manageIO;
 
-
 class Gridworld:
     '''
     Finds policies for the best way from each field
@@ -39,9 +38,9 @@ class Gridworld:
                 # if we have a state-field: init dict with actions with the param value
                 if(self.grid[i][j] == "F"):
                     policy[i][j] = {"up": value,
-                                          "down": value,
-                                          "left": value,
-                                          "right": value}
+                                    "down": value,
+                                    "left": value,
+                                    "right": value}
                 # goal, pitfall and obstacle get value None
                 else:
                     policy[i][j] = None
