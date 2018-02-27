@@ -1,4 +1,23 @@
 import math
+import sys
+
+def continuationRequest():
+    '''
+    Checks if user wants to continue calculating episodes.
+    :return: Returns True if user wants to continue, returns False if user does not
+    '''
+
+    choice = input("Episode has concluded. Do you want to continue? (y/n)")
+    while not (choice is "y" or "n" or "Y" or "N"):
+        if "exit" in choice.lower():
+            sys.exit()
+        choice = input("Please select either yes (y) or no (n): ")
+
+    if choice.lower() is "y":
+        return True
+
+    return False
+
 
 def printPolicy(Gridworld):
     '''

@@ -128,3 +128,30 @@ def nextState(Gridworld, state, action):
             return (state[0], state[1] + 1)
 
     else: return state
+
+
+def updatePolicy(Gridworld):
+    '''
+    Updates the greedy policy after an episode. Checks for convergence before updating.
+    :param Gridworld: the Gridworld we are in
+    '''
+
+    newpolicy = DerivePolicy(Gridworld)
+    Gridworld.converged = comparePolicies(Gridworld.targetpolicy, newpolicy)
+    if not Gridworld.converged:
+        Gridworld.targetpolicy = newpolicy
+
+
+def comparePolicies(policyOne, policyTwo):
+    '''
+    Checks if two policies are similar.
+    :param: policyOne: The first policy to take into consideration.
+    :param: policyTwo: The second policy to take into consideration.
+    :return: True if policies are the same, False if policies are different
+    '''
+
+    for i in range(len(policyOne)):
+        for j in range(len(policyOne[0])):
+            if policyOne[i][j] != policyTwo[i][j]:
+                return False
+    return True
