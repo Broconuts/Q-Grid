@@ -1,4 +1,5 @@
 import manageIO;
+import calculate;
 
 class Gridworld:
     '''
@@ -48,8 +49,37 @@ class Gridworld:
         return policy
 
 
+    def runEpisode(self):
+        '''
+        Simulates an episode from start (currently always the bottom right corner) to
+        finish (reaching a goal state) and updates the knowledge (in form of the q-values)
+        in the process. How the episode is run depends on the user's choice.
+        manual: shows the user each step and the updated q-value-array for each step
+        automatic: runs entire episode without output until end of episode is reached
+        (whether or not it then prints the q-value-function depends on whether the user
+        has chosen the single-episode mode or the full-automatic mode).
+        '''
+
+        # set the current state to its initial position (bottom left corner)
+        currentstate = (len(Gridworld.grid), 0)
+
+        # run this until we reach a goalstate
+        while self.grid[currentstate[0]][currentstate[1]] != "E":
+            action = calculate.ActionSelection(self, currentstate)
+            nextstate = calculate.nextState(self, currentstate, action)
+            calculate.qUpdate(self, currentstate, action, nextstate)
+            if self.processingMode == "m":
+                manageIO.printValues(self)
+            currentstate = nextstate
+
+        # if processing mode is automatic single episode
+        if self.processingMode == "ase":
+            manageIO.printValues(self)
+
+
 if __name__ == '__main__':
     test = Gridworld();
     #manageIO.readUserInput(test); Habe ein Grid als default gesetzt
     test.targetpolicy = test.initializePolicy(0.25)
     test.behaviorpolicy = test.initializePolicy(0)
+    test.runEpisode()
