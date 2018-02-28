@@ -15,8 +15,8 @@ class Gridworld:
         self.behaviorpolicy = []
         self.values = []
         self.converged = False
-        self.epsilon = 0
-        self.alpha = 0
+        self.epsilon = 0.5
+        self.alpha = 0.5
         self.GAMMA = 1
         self.REWARD = -0.04
         self.PITFALL = -1
@@ -62,7 +62,7 @@ class Gridworld:
         '''
 
         # set the current state to its initial position (bottom left corner)
-        currentstate = (len(Gridworld.grid), 0)
+        currentstate = (len(self.grid) - 1, 0)
 
         # run this until we reach a goalstate
         while self.grid[currentstate[0]][currentstate[1]] != "E":
@@ -86,6 +86,8 @@ if __name__ == '__main__':
     #manageIO.readUserInput(test); Habe ein Grid als default gesetzt
     test.targetpolicy = test.initializePolicy(0.25)
     test.behaviorpolicy = test.initializePolicy(0)
+    # initialize action-value function with 0
+    test.values = [[[0 for x in range(len(test.grid[0]))] for y in range(len(test.grid))] for z in range(len(test.actions))]
 
     # if fully automatic processing mode is chosen
     if test.processingMode == "a":

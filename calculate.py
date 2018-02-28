@@ -7,14 +7,14 @@ def ActionSelection(Gridworld, state):
     '''
 
 
-    max = Gridworld.values[state[0]][state[1]]["up"]
+    max = Gridworld.values[state[0]][state[1]][0]
     action = "up"
 
     # find the maximal qvalue in the current state and the according action
-    for i in Gridworld.actions:
+    for i in range(4):
         if Gridworld.values[state[0]][state[1]][i] > max:
             max = Gridworld.values[state[0]][state[1]][i]
-            action = i
+            action = Gridworld.actions[i]
 
     # update the behaviorpolicy with the epsilon-soft formula
     for i in Gridworld.actions:
@@ -39,14 +39,14 @@ def DerivePolicy(Gridworld):
     for i in range(len(Gridworld.values)):
         for j in range(len(Gridworld.values[0])):
 
-            max = Gridworld.values[i][j]["up"]
+            max = Gridworld.values[i][j][1]
             action = "up"
 
             # find the maximal q-value in the state and the according action
-            for k in Gridworld.actions:
+            for k in range(4):
                 if Gridworld.values[i][j][k] > max:
                     max = Gridworld.values[i][j][k]
-                    action = k
+                    action = Gridworld.actions[k]
 
             # update the state of the policy
             gredpol[i][j] = action
@@ -69,12 +69,12 @@ def qUpdate(Gridworld, state, action, nextstate):
     # by seeing the immediate reward provided by the next state
     r = immediateReward(Gridworld, nextstate)
     # determine what the highest action-value of the next state is
-    nextQmax = max(Gridworld.values[nextstate])
+    nextQmax = max(Gridworld.values[nextstate[0]][nextstate[1]])
 
     # calculate action-value of the current action given the current state
     # result of the immediate reward plus the best action-value of the next states
     # remember: Gridworld.alpha is the learning rate of our learner
-    Gridworld.values[state][action] = r + Gridworld.alpha * nextQmax
+    Gridworld.values[state[0]][state[1]][Gridworld.actions.index(action)] = r + Gridworld.alpha * nextQmax
 
 
 def immediateReward(Gridworld, next):
@@ -84,6 +84,8 @@ def immediateReward(Gridworld, next):
     :param: next: the state we will enter next
     '''
 
+    print("Grid-length: " + str(len(Gridworld.grid)))
+    print("State: " + str(next[0]) + " " + str(next[1]))
     # retrieve the string representing the nature of the field we are about to enter
     nature = Gridworld.grid[next[0]][next[1]]
 
