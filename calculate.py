@@ -24,6 +24,7 @@ def ActionSelection(Gridworld, state):
 
         # update the behaviorpolicy with the epsilon-soft formula
     for i in Gridworld.actions:
+        # TODO: Still sometimes NoneType? What to do in that case?
         if Gridworld.behaviorpolicy[state[0]][state[1]][i] is not None:
             if i == action:
                 print("BehaviourPolicy: " + str(Gridworld.behaviorpolicy[state[0]][state[1]][i]))
