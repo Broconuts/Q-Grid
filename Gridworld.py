@@ -108,6 +108,7 @@ if __name__ == '__main__':
     else:
         # run initial episode
         test.runEpisode()
+        print("do we get here?")
         # update policy accordingly
         calculate.updatePolicy(test)
 

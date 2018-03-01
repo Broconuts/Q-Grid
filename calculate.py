@@ -30,6 +30,7 @@ def ActionSelection(Gridworld, state):
                 print("BehaviourPolicy: " + str(Gridworld.behaviorpolicy[state[0]][state[1]][i]))
                 Gridworld.behaviorpolicy[state[0]][state[1]][i] = 1 - Gridworld.epsilon + (
                         Gridworld.epsilon / len(Gridworld.actions))
+                print("Updated BehaviorPolicy: " + str(Gridworld.behaviorpolicy[state[0]][state[1]][i]))
             else:
                 Gridworld.behaviorpolicy[state[0]][state[1]][i] = Gridworld.epsilon / len(Gridworld.actions)
     return action
@@ -122,22 +123,21 @@ def nextState(Gridworld, state, action):
 
     if (action == "up"):
         # TODO: check if state[0] is actually vertical or horizontal line
-        # Edit Lena: changed state[0] and [1]
         # check if we can even move in that direction given our current position
-        if (state[0] != 0):
+        if (state[0] != 0 and Gridworld.grid[state[0]-1][state[1]] != "O"):
             state = (state[0] - 1, state[1])
         # TODO: check with the others if this solution is alright
     elif (action == "down"):
         # check if we can even move in that direction given our current position
-        if (state[0] != len(Gridworld.grid) - 1):
+        if (state[0] != len(Gridworld.grid) - 1 and Gridworld.grid[state[0]+1][state[1]] != "O"):
             state = (state[0] + 1, state[1])
     elif (action == "left"):
         # check if we can even move in that direction given our current position
-        if (state[1] != 0):
+        if (state[1] != 0 and Gridworld.grid[state[0]][state[1]-1] != "O"):
             state = (state[0], state[1] - 1)
     elif (action == "right"):
         # check if we can even move in that direction given our current position
-        if (state[1] != len(Gridworld.grid[0]) - 1):
+        if (state[1] != len(Gridworld.grid[0]) - 1 and Gridworld.grid[state[0]][state[1]+1] != "O"):
             state = (state[0], state[1] + 1)
 
     return state
