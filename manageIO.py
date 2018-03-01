@@ -1,4 +1,24 @@
 import math
+import sys
+
+
+def continuationRequest():
+    '''
+    Checks if user wants to continue calculating episodes.
+    :return: Returns True if user wants to continue, returns False if user does not
+    '''
+
+    choice = input("Episode has concluded. Do you want to continue? (y/n)")
+    while not (choice is "y" or "n" or "Y" or "N"):
+        if "exit" in choice.lower():
+            sys.exit()
+        choice = input("Please select either yes (y) or no (n): ")
+
+    if choice.lower() is "y":
+        return True
+
+    return False
+
 
 def printPolicy(Gridworld):
     '''
@@ -31,6 +51,7 @@ def printValues(Gridworld):
     print("\n", end="")
     for i in range(len(Gridworld.values)):
         for j in range(len(Gridworld.values[0])):
+
             # checking if nothing (or a placeholder) was written in this position of the array
             if (Gridworld.values[i][j] == "None" or Gridworld.values[i][j] is None):
                 print("  x  ", end=" ")
@@ -38,7 +59,9 @@ def printValues(Gridworld):
             # use of ceiling function for rounding up to three decimals is used instead of
             # Python's "round" function since it delivered better results in this program
             else:
-                print("{0:5}".format(math.ceil(Gridworld.values[i][j] * 1000) / 1000), end=" ")
+                # print("Testing + Values: " + str(Gridworld.values[i][j]))
+                # for k in range(len(Gridworld.values[i][j]) - 1):
+                print(Gridworld.values[i][j], end=" ")
         print("\n", end="")
 
 

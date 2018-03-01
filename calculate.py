@@ -85,7 +85,11 @@ def qUpdate(Gridworld, state, action, nextstate):
     # calculate action-value of the current action given the current state
     # result of the immediate reward plus the best action-value of the next states
     # remember: Gridworld.alpha is the learning rate of our learner
+<<<<<<< HEAD
     Gridworld.values[state[0]][state[1]][Gridworld.actions.index(action)] += Gridworld.alpha * (r  + Gridworld.GAMMA * nextQmax - Gridworld.values[state[0]][state[1]][Gridworld.actions.index(action)])
+=======
+    Gridworld.values[state[0]][state[1]][Gridworld.actions.index(action)] = r + Gridworld.alpha * nextQmax
+>>>>>>> master
 
 
 def immediateReward(Gridworld, next):
