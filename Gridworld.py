@@ -64,6 +64,7 @@ class Gridworld:
         # set the current state to its initial position (bottom left corner)
         currentstate = (len(self.grid) - 1, 0)
 
+        iterations = 0
         # run this until we reach a goalstate
         while self.grid[currentstate[0]][currentstate[1]] != "E":
             # determine action (epsilon-soft)
@@ -79,6 +80,9 @@ class Gridworld:
                 manageIO.printValues(self)
             # move from current state to next state
             currentstate = nextstate
+            iterations = iterations + 1
+
+            print("Number of iterations: " + str(iterations))
 
 
 if __name__ == '__main__':
