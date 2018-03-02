@@ -1,5 +1,5 @@
-import manageIO;
-import calculate;
+import manageIO
+import calculate
 
 class Gridworld:
     '''
@@ -9,7 +9,7 @@ class Gridworld:
 
     def __init__(self):
         self.actions = ["up", "down", "left", "right"]
-        self.processingMode = "m"
+        self.processingMode = "s"
         self.grid = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
         self.targetpolicy = []
         self.behaviorpolicy = []
@@ -64,9 +64,11 @@ class Gridworld:
         # set the current state to its initial position (bottom left corner)
         currentstate = (len(self.grid) - 1, 0)
 
+        print(self.values[currentstate[0]][currentstate[1]])
+
         iterations = 0
         # run this until we reach a goalstate
-        while self.grid[currentstate[0]][currentstate[1]] != "E":
+        while self.grid[currentstate[0]][currentstate[1]] != "E" and self.grid[currentstate[0]][currentstate[1]] != "P":
             # determine action (epsilon-soft)
             action = calculate.ActionSelection(self, currentstate)
             # determine the next state given our current state and the chosen action
@@ -86,13 +88,18 @@ class Gridworld:
 
 
 if __name__ == '__main__':
-    test = Gridworld();
+    test = Gridworld()
     #manageIO.readUserInput(test); Habe ein Grid als default gesetzt
     test.targetpolicy = test.initializePolicy(0.25)
     test.behaviorpolicy = test.initializePolicy(0)
     # initialize action-value function with 0
+<<<<<<< HEAD
     test.values = [[[0 for actions in range(len(test.actions))] for column in range(len(test.grid[0]))] for row in range(len(test.grid))]
 
+=======
+    test.values = [[[0 for actions in range(len(test.actions))] for column in range(len(test.grid[0]))] for row in
+                   range(len(test.grid))]
+>>>>>>> Jannik_prelim
     # if fully automatic processing mode is chosen
     if test.processingMode == "a":
         # run episodes until stopping criterion (convergence) is met
@@ -102,13 +109,12 @@ if __name__ == '__main__':
             calculate.updatePolicy(test)
 
         print("The suggested q-values after convergence of policies are:")
-        manageIO.printValues(test.values)
+        manageIO.printValues(test)
 
     # if semi-automatic or manual processing mode is chosen
     else:
         # run initial episode
         test.runEpisode()
-        print("do we get here?")
         # update policy accordingly
         calculate.updatePolicy(test)
 
@@ -122,6 +128,7 @@ if __name__ == '__main__':
                 print("This episode did not change the recommended policies.")
             else:
                 print("Policy has been updated.")
+            manageIO.printPolicy(test)
 
         print("The suggested q-values after convergence of policies are:")
-        manageIO.printValues(test.values)
+        manageIO.printValues(test)
