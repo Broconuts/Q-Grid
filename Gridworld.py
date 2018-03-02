@@ -1,5 +1,5 @@
-import manageIO;
-import calculate;
+import manageIO
+import calculate
 
 class Gridworld:
     '''
@@ -9,7 +9,7 @@ class Gridworld:
 
     def __init__(self):
         self.actions = ["up", "down", "left", "right"]
-        self.processingMode = "m"
+        self.processingMode = "s"
         self.grid = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
         self.targetpolicy = []
         self.behaviorpolicy = []
@@ -104,13 +104,12 @@ if __name__ == '__main__':
             calculate.updatePolicy(test)
 
         print("The suggested q-values after convergence of policies are:")
-        manageIO.printValues(test.values)
+        manageIO.printValues(test)
 
     # if semi-automatic or manual processing mode is chosen
     else:
         # run initial episode
         test.runEpisode()
-        print("do we get here?")
         # update policy accordingly
         calculate.updatePolicy(test)
 
@@ -124,6 +123,7 @@ if __name__ == '__main__':
                 print("This episode did not change the recommended policies.")
             else:
                 print("Policy has been updated.")
+            manageIO.printPolicy(test)
 
         print("The suggested q-values after convergence of policies are:")
-        manageIO.printValues(test.values)
+        manageIO.printValues(test)

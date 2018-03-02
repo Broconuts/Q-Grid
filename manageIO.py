@@ -14,7 +14,7 @@ def continuationRequest():
             sys.exit()
         choice = input("Please select either yes (y) or no (n): ")
 
-    if choice.lower() is "y":
+    if choice.lower() == "y":
         return True
 
     return False
@@ -26,17 +26,17 @@ def printPolicy(Gridworld):
     '''
 
     print("\n", end="")
-    for i in range(len(Gridworld.policy)):
-        for j in range(len(Gridworld.policy[0])):
+    for i in range(len(Gridworld.targetpolicy)):
+        for j in range(len(Gridworld.targetpolicy[0])):
             # prints a symbol representing the direction that the policy for a given field in the grid
             # is indicating
-            if (Gridworld.policy[i][j] == "up"):
+            if (Gridworld.targetpolicy[i][j] == "up"):
                 print("^", end=" ")
-            elif (Gridworld.policy[i][j] == "down"):
+            elif (Gridworld.targetpolicy[i][j] == "down"):
                 print("v", end=" ")
-            elif (Gridworld.policy[i][j] == "left"):
+            elif (Gridworld.targetpolicy[i][j] == "left"):
                 print("<", end=" ")
-            elif (Gridworld.policy[i][j] == "right"):
+            elif (Gridworld.targetpolicy[i][j] == "right"):
                 print(">", end=" ")
             else:
                 print(Gridworld.policy[i][j], end=" ")
