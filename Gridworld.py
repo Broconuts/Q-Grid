@@ -91,7 +91,7 @@ if __name__ == '__main__':
     test.targetpolicy = test.initializePolicy(0.25)
     test.behaviorpolicy = test.initializePolicy(0)
     # initialize action-value function with 0
-    test.values = [[[0 for x in range(len(test.grid[0]))] for y in range(len(test.grid))] for z in range(len(test.actions))]
+    test.values = [[[0 for actions in range(len(test.actions))] for column in range(len(test.grid[0]))] for row in range(len(test.grid))]
 
     # if fully automatic processing mode is chosen
     if test.processingMode == "a":
