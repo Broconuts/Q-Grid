@@ -88,7 +88,7 @@ class Gridworld:
 
 
 if __name__ == '__main__':
-    test = Gridworld();
+    test = Gridworld()
     #manageIO.readUserInput(test); Habe ein Grid als default gesetzt
     test.targetpolicy = test.initializePolicy(0.25)
     test.behaviorpolicy = test.initializePolicy(0)
