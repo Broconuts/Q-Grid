@@ -38,7 +38,7 @@ class Gridworld:
 
             for j in range(len(self.grid[0])):
                 # if we have a state-field: init dict with actions with the param value
-                if(self.grid[i][j] == "F") or (self.grid[i][j] == "P"):
+                if(self.grid[i][j] == "F"):
                     policy[i][j] = {"up": value,
                                     "down": value,
                                     "left": value,
@@ -66,7 +66,7 @@ class Gridworld:
 
         iterations = 0
         # run this until we reach a goalstate
-        while self.grid[currentstate[0]][currentstate[1]] != "E":
+        while self.grid[currentstate[0]][currentstate[1]] != "E" or self.grid[currentstate[0]][currentstate[1]] != "P":
             # determine action (epsilon-soft)
             action = calculate.ActionSelection(self, currentstate)
             # determine the next state given our current state and the chosen action
