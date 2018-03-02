@@ -64,9 +64,11 @@ class Gridworld:
         # set the current state to its initial position (bottom left corner)
         currentstate = (len(self.grid) - 1, 0)
 
+        print(self.values[currentstate[0]][currentstate[1]])
+
         iterations = 0
         # run this until we reach a goalstate
-        while self.grid[currentstate[0]][currentstate[1]] != "E" or self.grid[currentstate[0]][currentstate[1]] != "P":
+        while self.grid[currentstate[0]][currentstate[1]] != "E" and self.grid[currentstate[0]][currentstate[1]] != "P":
             # determine action (epsilon-soft)
             action = calculate.ActionSelection(self, currentstate)
             # determine the next state given our current state and the chosen action
