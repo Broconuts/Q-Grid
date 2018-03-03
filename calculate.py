@@ -69,7 +69,6 @@ def nextState(Gridworld, state, action):
     :param: action: the action occuring in that states
     :return: the coordinates of the next state
     '''
-
     # get the indexshift for the according action
     def indact(ind):
         return {
@@ -80,11 +79,11 @@ def nextState(Gridworld, state, action):
         }[ind]
 
     # the indices of the new state
-    (r,c) = state + indact(action)
+    (row,column) = (state[0] + indact(action)[0], state[1] + indact(action)[1])
 
-    valid = validNextState(Gridworld, (r,c))
+    valid = validNextState(Gridworld, (row,column))
     if valid:
-        return (r,c)
+        return (row,column)
     else:
          return state
 
@@ -97,16 +96,16 @@ def validNextState(Gridworld, state):
     :param action: proposed action
     :return: boolean if action leads out of grid
     '''
-    (r,c) = state
+    (row,column) = state
 
     # if the indices are out of the grid it is not a vaild state
-    if r < 0 or r >= len(Gridworld.grid):
+    if row < 0 or row >= len(Gridworld.grid):
         return False
-    if c < 0 or c >= len(Gridworld.grid[0]):
+    if column < 0 or column >= len(Gridworld.grid[0]):
         return False
 
     # if there is an obstacle it is not a valid state
-    cell = Gridworld.grid[r][c]
+    cell = Gridworld.grid[row][column]
     if cell.type == 'O':
         return False
 

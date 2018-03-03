@@ -3,6 +3,7 @@ import calculate
 import numpy as np
 import Cell
 
+
 class Gridworld:
     '''
     Finds policies for the best way from each field
@@ -10,23 +11,22 @@ class Gridworld:
     '''
 
     def __init__(self):
-            self.actions = ["up", "down", "left", "right"]
-            self.processingMode = "s"
-            field = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
-            self.grid = np.zeros((len(field_type), len(field[0])), dtype=Cell)
-            for r in range(len(field)):
-                for c in range(len(field[0])):
-                    self.grid[r,c] = Cell(len(self.actions), field[r][c])
-                    
-            self.converged = False
-            self.epsilon = 0.5
-            self.alpha = 0.5
-            self.GAMMA = 1
-            self.REWARD = -0.04
-            self.PITFALL = -1
-            self.GOAL = 1
-            self.ITERATIONS = 1
+        self.actions = ["up", "down", "left", "right"]
+        self.processingMode = "s"
+        field = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
+        self.grid = np.zeros((len(field), len(field[0])), dtype=Cell.Cell)
+        for r in range(len(field)):
+            for c in range(len(field[0])):
+                self.grid[r, c] = Cell.Cell(len(self.actions), field[r][c])
 
+        self.converged = False
+        self.epsilon = 0.5
+        self.alpha = 0.5
+        self.GAMMA = 1
+        self.REWARD = -0.04
+        self.PITFALL = -1
+        self.GOAL = 1
+        self.ITERATIONS = 1
 
     def runEpisode(self):
         '''
@@ -44,8 +44,9 @@ class Gridworld:
 
         iterations = 0
         # run this until we reach a goalstate
-        #TODO: check if a two-dimensional array can be accessed like this
-        while self.grid[currentstate[0]][currentstate[1]].type != "E" and self.grid[currentstate[0]][currentstate[1]].type != "P":
+        # TODO: check if a two-dimensional array can be accessed like this
+        while self.grid[currentstate[0]][currentstate[1]].type != "E" and self.grid[currentstate[0]][
+            currentstate[1]].type != "P":
             # determine action (epsilon-soft)
             action = calculate.selectAction(self, currentstate)
             # determine the next state given our current state and the chosen action
@@ -53,7 +54,7 @@ class Gridworld:
             # update the value function for this state-action pair
             calculate.qUpdate(self, currentstate, action, nextstate)
             # for manual processing: print the now updated value function
-            #TODO: this if-condition may increase runtime noticeably. Check this.
+            # TODO: this if-condition may increase runtime noticeably. Check this.
             if self.processingMode == "m":
                 print("Updated q-values:")
                 manageIO.printValues(self)
@@ -62,43 +63,43 @@ class Gridworld:
             iterations = iterations + 1
 
             print("Number of iterations: " + str(iterations))
-        
 
-    if __name__ == '__main__':
-        gw = Gridworld()
-        #manageIO.readUserInput(gw); Habe ein Grid als default gesetzt
 
-        # if fully automatic processing mode is chosen
-        if gw.processingMode == "a":
-            # run episodes until stopping criterion (convergence) is met
-            while not gw.converged:
-                # setting converged to True before each episode. Will be set 
-                # to false as soon as a single greedy policy is changed
-                gw.converged = True
-                gw.runEpisode()
+if __name__ == '__main__':
+    gw = Gridworld()
+    # manageIO.readUserInput(gw); Habe ein Grid als default gesetzt
 
-            print("The suggested q-values after convergence of policies are:")
-            manageIO.printValues(gw)
-
-        # if semi-automatic or manual processing mode is chosen
-        else:
-            # run initial episode
+    # if fully automatic processing mode is chosen
+    if gw.processingMode == "a":
+        # run episodes until stopping criterion (convergence) is met
+        while not gw.converged:
+            # setting converged to True before each episode. Will be set
+            # to false as soon as a single greedy policy is changed
+            gw.converged = True
             gw.runEpisode()
 
-            # ask the user after each episode if he or she wants to continue
-            while manageIO.continuationRequest() is True:
-                # setting converged to True before each episode. Will be set 
-                # to false as soon as a single greedy policy is changed
-                gw.converged = True
-                gw.runEpisode()
+        print("The suggested q-values after convergence of policies are:")
+        manageIO.printValues(gw)
 
-                # if convergence has occurred, notify user
-                # he or she may continue anyway if desired
-                if gw.converged:
-                    print("This episode did not change the recommended policies.")
-                else:
-                    print("Policy has been updated.")
-                manageIO.printPolicy(gw)
+    # if semi-automatic or manual processing mode is chosen
+    else:
+        # run initial episode
+        gw.runEpisode()
 
-            print("The suggested q-values after convergence of policies are:")
-            manageIO.printValues(gw)
+        # ask the user after each episode if he or she wants to continue
+        while manageIO.continuationRequest() is True:
+            # setting converged to True before each episode. Will be set
+            # to false as soon as a single greedy policy is changed
+            gw.converged = True
+            gw.runEpisode()
+
+            # if convergence has occurred, notify user
+            # he or she may continue anyway if desired
+            if gw.converged:
+                print("This episode did not change the recommended policies.")
+            else:
+                print("Policy has been updated.")
+            manageIO.printPolicy(gw)
+
+        print("The suggested q-values after convergence of policies are:")
+        manageIO.printValues(gw)
