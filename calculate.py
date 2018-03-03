@@ -63,26 +63,6 @@ def nextState(Gridworld, state, action):
     #TODO: write the code for nextState
 
 
-def updatePolicy(Gridworld):
-    '''
-    Updates the greedy policy after an episode. Checks for convergence before updating.
-    :param Gridworld: the Gridworld we are in
-    '''
-
-    # TODO: write updatePolicy code
-
-
-def comparePolicies(policyOne, policyTwo):
-    '''
-    Checks if two policies are similar.
-    :param: policyOne: The first policy to take into consideration.
-    :param: policyTwo: The second policy to take into consideration.
-    :return: True if policies are the same, False if policies are different
-    '''
-
-    # TODO: write comparePolicies code
-
-
 def validNextState(Gridworld, state, action):
     '''
     Returns a boolean that determines whether the next move leads out of the grid

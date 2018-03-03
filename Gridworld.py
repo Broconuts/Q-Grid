@@ -71,9 +71,10 @@ class Gridworld:
         if gw.processingMode == "a":
             # run episodes until stopping criterion (convergence) is met
             while not gw.converged:
+                # setting converged to True before each episode. Will be set 
+                # to false as soon as a single greedy policy is changed
+                gw.converged = True
                 gw.runEpisode()
-                # checks if policies converge and if they don't updates policy
-                calculate.updatePolicy(gw)
 
             print("The suggested q-values after convergence of policies are:")
             manageIO.printValues(gw)
@@ -82,13 +83,14 @@ class Gridworld:
         else:
             # run initial episode
             gw.runEpisode()
-            # update policy accordingly
-            calculate.updatePolicy(gw)
 
             # ask the user after each episode if he or she wants to continue
             while manageIO.continuationRequest() is True:
+                # setting converged to True before each episode. Will be set 
+                # to false as soon as a single greedy policy is changed
+                gw.converged = True
                 gw.runEpisode()
-                calculate.updatePolicy(gw)
+
                 # if convergence has occurred, notify user
                 # he or she may continue anyway if desired
                 if gw.converged:
