@@ -83,6 +83,7 @@ class Cell:
         return (val)
 
     def get_print_string(self):
-        pristri1 =  str(self.get_qValue(0)) + " , " + str(self.get_qValue(1))
-        pristri2 =  str(self.get_qValue(2)) + " , " + str(self.get_qValue(3))
+        pristri1 =  str(np.round_(self.get_qValue(0), 3)) + " , " + str(np.round_(self.get_qValue(1), 3))
+        pristri2 =  str(np.round_(self.get_qValue(2), 3)) + " , " + str(np.round_(self.get_qValue(3), 3))
         return " (" + pristri1 + ") " + "\n" + " (" + pristri2 + ") "
+    np.round

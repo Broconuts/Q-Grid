@@ -55,8 +55,21 @@ def immediateReward(Gridworld, next):
     :param: next: the state we will enter next
     '''
 
-    # TODO: write immediateReward code
-    return 1
+    #get cell representation
+    cell = Gridworld.grid[next[0]][next[1]]
+
+    #check what type cell is and return corresponding value
+    if cell._type == "F":
+        return Gridworld.REWARD
+    elif cell._type == "E":
+        return Gridworld.GOAL
+    elif cell._type == "O":
+        return -1000
+    elif cell._type == "P":
+        return Gridworld.PITFALL
+    else:
+        print("Field Type not found! Problem in immediateReward")
+        exit(1)
 
 
 def nextState(Gridworld, state, action):
