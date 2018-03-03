@@ -55,15 +55,23 @@ class Cell:
         return self._qValues[i]
 
 
-    def set_qValue(self, idx, val):
+    def set_qValue(self, idx, val, Gridworld):
         '''
-        Sets the q-Value for a given action.
+        Sets the q-Value for a given action. Checks if new q-Value is higher than q-values
+        for all other sections. If so, marks this one as highest value and sets policy
+        to this action.
+        If this new highest value is for a different action than the one before, set
+        convergence in the Gridworld to false.
         :param: idx: the index of the action we want to set the value for
         :param: val: the value we want to save
+        :param: Gridworld: the gridworld we operate in
         '''
-        if val > self.get_qValue(self._max):
-            self._max = idx
         self._qValues[i] = val
+        
+        if val > self.get_qValue(self._max) and idx != self._max:
+            self._max = idx
+            self._policy = idx
+            Gridworld.converged = False
 
 
     @property
