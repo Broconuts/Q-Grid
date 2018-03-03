@@ -91,7 +91,7 @@ def nextState(Gridworld, state, action):
         }[ind]
 
     # the indices of the new state
-    print("action: " + str(action))
+
     (row,column) = (state[0] + indact(action)[0], state[1] + indact(action)[1])
 
     valid = validNextState(Gridworld, (row,column))
@@ -101,15 +101,15 @@ def nextState(Gridworld, state, action):
          return state
 
 
-def validNextState(Gridworld, state):
+def validNextState(Gridworld, nextstate):
     '''
     Returns a boolean that indicates whether the next move leads out of the grid
     :param Gridworld: Grid to operate on
-    :param state: current state
+    :param nextstate: state to be checked
     :param action: proposed action
     :return: boolean if action leads out of grid
     '''
-    (row,column) = state
+    (row,column) = nextstate
 
     # if the indices are out of the grid it is not a vaild state
     if row < 0 or row >= len(Gridworld.grid):
