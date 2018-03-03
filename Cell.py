@@ -17,8 +17,14 @@ class Cell:
     def __init__(self, actions, type):
         self._type = type
         self._policy = 0
-        self._qValues = np.zeros(actions)
         self._max = 0 # idx of maximal qValue
+        # free fiels get q-value array
+        if self._type == "F":
+            self._qValues = np.zeros(actions)
+        # other fields get their type as array and max-index of -1
+        else:
+            self._qValues = [type, type, type, type]
+            self._max = -1
 
 
     @property
@@ -92,7 +98,7 @@ class Cell:
         return (val)
 
     def get_print_string(self):
-        pristri1 =  str(np.round_(self.get_qValue(0), 3)) + " , " + str(np.round_(self.get_qValue(1), 3))
-        pristri2 =  str(np.round_(self.get_qValue(2), 3)) + " , " + str(np.round_(self.get_qValue(3), 3))
+        pristri1 =  str(self.get_qValue(0)) + " , " + str(self.get_qValue(1))
+        pristri2 =  str(self.get_qValue(2)) + " , " + str(self.get_qValue(3))
         return " (" + pristri1 + ") " + "\n" + " (" + pristri2 + ") "
     np.round
