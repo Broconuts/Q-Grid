@@ -62,7 +62,7 @@ class Gridworld:
             currentstate = nextstate
             iterations = iterations + 1
 
-            print("Number of iterations: " + str(iterations))
+        print("Number of iterations: " + str(iterations))
 
 
 if __name__ == '__main__':
