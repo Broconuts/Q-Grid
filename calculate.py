@@ -60,15 +60,44 @@ def nextState(Gridworld, state, action):
     :return: the coordinates of the next state
     '''
 
-    #TODO: write the code for nextState
+    # get the indexshift for the according action
+    def indact(ind):
+        return {
+            0: (1,0),
+            1: (-1,0),
+            2: (0,-1),
+            3: (0,1),
+        }[ind]
+
+    # the indices of the new state
+    (r,c) = state + indact(action)
+
+    vaild = validNextState(Gridworld, (r,c))
+    if valid:
+        return (r,c)
+    else:
+         return state
 
 
-def validNextState(Gridworld, state, action):
+def validNextState(Gridworld, state):
     '''
-    Returns a boolean that determines whether the next move leads out of the grid
+    Returns a boolean that indicates whether the next move leads out of the grid
     :param Gridworld: Grid to operate on
     :param state: current state
     :param action: proposed action
     :return: boolean if action leads out of grid
     '''
-    # TODO: write validNextState code
+    (r,c) = state
+
+    # if the indices are out of the grid it is not a vaild state
+    if r < 0 or r >= len(Gridworld.grid):
+        return False
+    if c < 0 or c >= len(Gridworld.grid[0]):
+        return False
+
+    # if there is an obstacle it is not a valid state
+    cell = Gridworld.grid[r][c]
+    if cell.type == 'O':
+        return False
+
+    return True
