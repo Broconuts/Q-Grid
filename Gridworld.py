@@ -12,7 +12,7 @@ class Gridworld:
 
     def __init__(self):
         self.actions = ["up", "down", "left", "right"]
-        self.processingMode = "a"
+        self.processingMode = "s"
         field = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
         self.grid = np.zeros((len(field), len(field[0])), dtype=Cell.Cell)
         for r in range(len(field)):
@@ -20,6 +20,8 @@ class Gridworld:
                 self.grid[r, c] = Cell.Cell(len(self.actions), field[r][c])
 
         self.converged = False
+        self.convergencecriterion = 2
+        self.convergencecounter = 0
         self.epsilon = 0.5
         self.alpha = 0.5
         self.GAMMA = 1
@@ -65,6 +67,28 @@ class Gridworld:
         print("Number of iterations: " + str(iterations))
 
 
+def checkForConvergence(self):
+    '''
+    Checks if convergence criterion is met.
+    :returns: True when convergence criterion is met, False when it is not
+    ''' 
+    # if episode finished without changing policies, increase
+    # convergence counter
+    if self.converged = True:
+        self.convergencecounter += 1
+    # if a policy was changed during an episode, reset convergence counter
+    else:
+        self.convergencecounter = 0
+    
+    # if the amount of episodes that have finished without changing policies
+    # matches the set criterion when we deem the policies to have converged,
+    # return True
+    if self.convergencecounter == self.convergencecriterion:
+        return True
+    
+    return False
+
+
 if __name__ == '__main__':
     gw = Gridworld()
     # manageIO.readUserInput(gw); Habe ein Grid als default gesetzt
@@ -72,7 +96,7 @@ if __name__ == '__main__':
     # if fully automatic processing mode is chosen
     if gw.processingMode == "a":
         # run episodes until stopping criterion (convergence) is met
-        while not gw.converged:
+        while not gw.checkForConvergence():
             # setting converged to True before each episode. Will be set
             # to false as soon as a single greedy policy is changed
             gw.converged = True
@@ -96,8 +120,8 @@ if __name__ == '__main__':
 
             # if convergence has occurred, notify user
             # he or she may continue anyway if desired
-            if gw.converged:
-                print("This episode did not change the recommended policies.")
+            if gw.checkForConvergence():
+                print("Your set convergence criterion has been met.")
             else:
                 print("Policy has been updated.")
             manageIO.printPolicy(gw)
