@@ -1,6 +1,7 @@
 import manageIO
 import calculate
 import numpy as np
+import Cell
 
 class Gridworld:
     '''
@@ -11,12 +12,11 @@ class Gridworld:
     def __init__(self):
             self.actions = ["up", "down", "left", "right"]
             self.processingMode = "s"
-            field_type = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
-            self.grid = np.zeros((len(field), len(field[0])), dtype=Cell)
-            for r in range(len(field_type)):
-                for c in range(len(r)):
-                    field = field_type[r][c]
-                    self.grid[r,c] = Cell(len(actions), field)
+            field = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
+            self.grid = np.zeros((len(field_type), len(field[0])), dtype=Cell)
+            for r in range(len(field)):
+                for c in range(len(field[0])):
+                    self.grid[r,c] = Cell(len(self.actions), field[r][c])
                     
             self.converged = False
             self.epsilon = 0.5

@@ -58,6 +58,7 @@ def immediateReward(Gridworld, next):
     '''
 
     # TODO: write immediateReward code
+    return 1
 
 
 def nextState(Gridworld, state, action):
