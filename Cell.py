@@ -14,11 +14,11 @@ class Cell:
     a value for each action, and the index of the highest value (for ease of access).
     '''
 
-    def __init__(self, actions=4, type='F'):
+    def __init__(self, actions, type):
         self._type = type
         self._policy = 0
         self._qValues = np.zeros(actions)
-        self._max = 0 # idx of max
+        self._max = 0 # idx of maximal qValue
 
 
     @property
@@ -66,7 +66,7 @@ class Cell:
         :param: val: the value we want to save
         :param: Gridworld: the gridworld we operate in
         '''
-        self._qValues[i] = val
+        self._qValues[idx] = val
         
         if val > self.get_qValue(self._max) and idx != self._max:
             self._max = idx

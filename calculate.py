@@ -40,14 +40,19 @@ def qUpdate(Gridworld, state, action, nextstate):
 
     # determine the immediate reward for performing a given action in the current state
     # by seeing the immediate reward provided by the next state
-    r = immediateReward(Gridworld, nextstate)
+    im_reward = immediateReward(Gridworld, nextstate)
 
-    # TODO: reformat this formula into something even remotely readable
-    q = Gridworld.grid[i][j].value[action] + Gridworld.alpha (r + Gridworld.GAMMA * 
-        Gridworld.grid[i][j].max_qValue - Gridworld.grid[i][j].value[action])
+    # assigments for easier access
+    row = state[0]
+    column = state[1]
+    cell = Gridworld.grid[row][column]
+
+    #q(s,a) + alpha * (reward + gamma * max q(s,a) - q(s,a) )
+    new_qVal = cell._qValues[action] + Gridworld.alpha * \
+               (im_reward + Gridworld.GAMMA * cell._max - cell._qValues[action])
 
     # update the q value for the cell
-    Gridworld.grid[i][j].set_qValue(action, q, Gridworld)
+    cell.set_qValue(action, new_qVal, Gridworld)
 
 
 def immediateReward(Gridworld, next):
