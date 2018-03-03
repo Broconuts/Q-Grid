@@ -12,7 +12,7 @@ class Gridworld:
 
     def __init__(self):
         self.actions = ["up", "down", "left", "right"]
-        self.processingMode = "s"
+        self.processingMode = "a"
         field = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
         self.grid = np.zeros((len(field), len(field[0])), dtype=Cell.Cell)
         for r in range(len(field)):
@@ -79,7 +79,7 @@ if __name__ == '__main__':
             gw.runEpisode()
 
         print("The suggested q-values after convergence of policies are:")
-        manageIO.printValues(gw)
+        manageIO.printQValues(gw)
 
     # if semi-automatic or manual processing mode is chosen
     else:

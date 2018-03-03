@@ -39,10 +39,11 @@ def qUpdate(Gridworld, state, action, nextstate):
     row = state[0]
     column = state[1]
     cell = Gridworld.grid[row][column]
+    old_qVal = cell._qValues[action]
 
     #q(s,a) + alpha * (reward + gamma * max q(s,a) - q(s,a) )
-    new_qVal = cell._qValues[action] + Gridworld.alpha * \
-               (im_reward + Gridworld.GAMMA * cell._max - cell._qValues[action])
+    new_qVal = old_qVal + Gridworld.alpha * \
+               (im_reward + Gridworld.GAMMA * cell._max - old_qVal)
 
     # update the q value for the cell
     cell.set_qValue(action, new_qVal, Gridworld)

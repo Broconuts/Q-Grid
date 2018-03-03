@@ -66,12 +66,20 @@ class Cell:
         :param: val: the value we want to save
         :param: Gridworld: the gridworld we operate in
         '''
+        print("Old qValue in Cell:" + str(self._qValues[idx]))
         self._qValues[idx] = val
-        
-        if val > self.get_qValue(self._max) and idx != self._max:
-            self._max = idx
-            self._policy = idx
-            Gridworld.converged = False
+        print("New qValue in Cell:" + str(self._qValues[idx]))
+
+        if val > self.get_qValue(self._max):
+            if idx != self._max:
+                self._max = idx
+                self._policy = idx
+                Gridworld.converged = False
+        elif val < self.get_qValue(self._max):
+            if idx == self._max:
+                new_highest_qVal = max(self._qValues)
+                new_index = self._qValues.index(new_highest_qVal)
+                self._max = new_index
 
 
     @property
