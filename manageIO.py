@@ -1,3 +1,6 @@
+from itertools import chain, zip_longest
+import Gridworld
+
 def printQValues(Gridworld):
     '''
     Prints values of action to change from one state to another.
@@ -45,3 +48,41 @@ def continuationRequest():
         return True
 
     return False
+
+def printQValues(Gridworld):
+    '''
+    Prints values of action to change from one state to another.
+    '''
+
+    # creates an array of strings from the print strings from all cells
+    table = []
+    for r in range(len(Gridworld.grid)):
+        row = []
+        for c in range(len(Gridworld.grid[0])):
+            pristri = Gridworld.grid[r][c].get_print_string()
+            row.append(pristri)
+        table.append(row)
+
+    # adds everything together to reformat
+    matrix = chain.from_iterable(
+        zip_longest(
+            *(x.splitlines() for x in y),
+            fillvalue='')
+        for y in table)
+
+    # nice formatting
+    s = [[str(e) for e in row] for row in matrix]
+    lens = [max(map(len, col)) for col in zip(*s)]
+    fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
+    table = [fmt.format(*row) for row in s]
+
+    # for better visibility add an empty line in every second place
+    # meaning after every row of the grid
+    counter = 0
+    for ind in table:
+        if counter % 2 != 0:
+            table[counter] = table[counter] + "\n"
+        counter = counter + 1
+
+    # print all array values from table each in a new line
+    print('\n'.join(table))

@@ -10,23 +10,16 @@ def selectAction(Gridworld, state):
     maxaction = Gridworld.grid[state].max
     # TODO: can we also use Gridworld.actions for this or is it mutable (i.e. would removing the max value for this function remove 
     # an actual entry from the original array)?
-    possibleactions = [0, 1, 2, 3]
+    possibleActions = [0, 1, 2, 3]
     # if chance for following optimal policy is met
     if random.random() < (1- Gridworld.epsilon + Gridworld.epsilon / len(Gridworld.actions)):
         # return action that is currently deemed to be the most valuable one
         return maxaction
-    # if chance for optimal policy isn't met, the three remaining options are tried 
-    elif random.random() < (Gridworld.epsilon/len(Gridworld.actions)):
-        possibleactions.remove(maxaction)
-        return possibleactions[0]
+    # if chance for optimal policy isn't met, on of the others returned randomly
+    else:
+        possibleActions.remove(maxaction)
+        return random.choice(possibleActions)
 
-    elif random.random() < (Gridworld.epsilon/len(Gridworld.actions)):
-        possibleactions.remove(maxaction)
-        return possibleactions[1]
-
-    elif random.random() < (Gridworld.epsilon/len(Gridworld.actions)):
-        possibleactions.remove(maxaction)
-        return possibleactions[2]
 
 
 def qUpdate(Gridworld, state, action, nextstate):
@@ -84,6 +77,7 @@ def nextState(Gridworld, state, action):
         }[ind]
 
     # the indices of the new state
+    print("action: " + str(action))
     (row,column) = (state[0] + indact(action)[0], state[1] + indact(action)[1])
 
     valid = validNextState(Gridworld, (row,column))

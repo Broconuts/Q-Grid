@@ -102,4 +102,4 @@ if __name__ == '__main__':
             manageIO.printPolicy(gw)
 
         print("The suggested q-values after convergence of policies are:")
-        manageIO.printValues(gw)
+        manageIO.printQValues(gw)

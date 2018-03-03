@@ -81,3 +81,8 @@ class Cell:
         '''
         val = self.get_qValue(self._max)
         return (val)
+
+    def get_print_string(self):
+        pristri1 =  str(self.get_qValue(0)) + " , " + str(self.get_qValue(1))
+        pristri2 =  str(self.get_qValue(2)) + " , " + str(self.get_qValue(3))
+        return " (" + pristri1 + ") " + "\n" + " (" + pristri2 + ") "
