@@ -8,46 +8,23 @@ class Gridworld:
     '''
 
     def __init__(self):
-        self.actions = ["up", "down", "left", "right"]
-        self.processingMode = "s"
-        self.grid = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
-        self.targetpolicy = []
-        self.behaviorpolicy = []
-        self.values = []
-        self.converged = False
-        self.epsilon = 0.5
-        self.alpha = 0.5
-        self.GAMMA = 1
-        self.REWARD = -0.04
-        self.PITFALL = -1
-        self.GOAL = 1
-        self.ITERATIONS = 1
-
-    def initializePolicy(self, value):
-        '''
-        initializes a policy for a grid with a value for all possible actions
-        :param value: the default value every action gets in every state
-        :return: initialized policy
-        '''
-
-        # initialize with zero to create array of size we want
-        policy = [[0 for x in range(len(self.grid[0]))] for y in range(len(self.grid))]
-
-        # iterate over array
-        for i in range(len(self.grid)):
-
-            for j in range(len(self.grid[0])):
-                # if we have a state-field: init dict with actions with the param value
-                if(self.grid[i][j] == "F"):
-                    policy[i][j] = {"up": value,
-                                    "down": value,
-                                    "left": value,
-                                    "right": value}
-                # goal, pitfall and obstacle get value None
-                else:
-                    policy[i][j] = None
-
-        return policy
+            self.actions = ["up", "down", "left", "right"]
+            self.processingMode = "s"
+            field_type = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
+            self.grid = np.zeros((len(field), len(field[0])), dtype=Cell)
+            for r in range(len(field_type)):
+                for c in range(len(r)):
+                    field = field_type[r][c]
+                    self.grid[r,c] = Cell(len(actions), field)
+                    
+            self.converged = False
+            self.epsilon = 0.5
+            self.alpha = 0.5
+            self.GAMMA = 1
+            self.REWARD = -0.04
+            self.PITFALL = -1
+            self.GOAL = 1
+            self.ITERATIONS = 1
 
 
     def runEpisode(self):
@@ -64,13 +41,12 @@ class Gridworld:
         # set the current state to its initial position (bottom left corner)
         currentstate = (len(self.grid) - 1, 0)
 
-        print(self.values[currentstate[0]][currentstate[1]])
-
         iterations = 0
         # run this until we reach a goalstate
-        while self.grid[currentstate[0]][currentstate[1]] != "E" and self.grid[currentstate[0]][currentstate[1]] != "P":
+        #TODO: check if a two-dimensional array can be accessed like this
+        while self.grid[currentstate].type != "E" and self.grid[currentstate].type != "P":
             # determine action (epsilon-soft)
-            action = calculate.ActionSelection(self, currentstate)
+            action = calculate.selectAction(self, currentstate)
             # determine the next state given our current state and the chosen action
             nextstate = calculate.nextState(self, currentstate, action)
             # update the value function for this state-action pair
@@ -85,45 +61,41 @@ class Gridworld:
             iterations = iterations + 1
 
             print("Number of iterations: " + str(iterations))
+        
 
+    if __name__ == '__main__':
+        gw = Gridworld()
+        #manageIO.readUserInput(gw); Habe ein Grid als default gesetzt
 
-if __name__ == '__main__':
-    test = Gridworld()
-    #manageIO.readUserInput(test); Habe ein Grid als default gesetzt
-    test.targetpolicy = test.initializePolicy(0.25)
-    test.behaviorpolicy = test.initializePolicy(0)
-    # initialize action-value function with 0
-    test.values = [[[0 for actions in range(len(test.actions))] for column in range(len(test.grid[0]))] for row in
-                   range(len(test.grid))]
-    # if fully automatic processing mode is chosen
-    if test.processingMode == "a":
-        # run episodes until stopping criterion (convergence) is met
-        while not test.converged:
-            test.runEpisode()
-            # checks if policies converge and if they don't updates policy
-            calculate.updatePolicy(test)
+        # if fully automatic processing mode is chosen
+        if gw.processingMode == "a":
+            # run episodes until stopping criterion (convergence) is met
+            while not gw.converged:
+                gw.runEpisode()
+                # checks if policies converge and if they don't updates policy
+                calculate.updatePolicy(gw)
 
-        print("The suggested q-values after convergence of policies are:")
-        manageIO.printValues(test)
+            print("The suggested q-values after convergence of policies are:")
+            manageIO.printValues(gw)
 
-    # if semi-automatic or manual processing mode is chosen
-    else:
-        # run initial episode
-        test.runEpisode()
-        # update policy accordingly
-        calculate.updatePolicy(test)
+        # if semi-automatic or manual processing mode is chosen
+        else:
+            # run initial episode
+            gw.runEpisode()
+            # update policy accordingly
+            calculate.updatePolicy(gw)
 
-        # ask the user after each episode if he or she wants to continue
-        while manageIO.continuationRequest() is True:
-            test.runEpisode()
-            calculate.updatePolicy(test)
-            # if convergence has occurred, notify user
-            # he or she may continue anyway if desired
-            if test.converged:
-                print("This episode did not change the recommended policies.")
-            else:
-                print("Policy has been updated.")
-            manageIO.printPolicy(test)
+            # ask the user after each episode if he or she wants to continue
+            while manageIO.continuationRequest() is True:
+                gw.runEpisode()
+                calculate.updatePolicy(gw)
+                # if convergence has occurred, notify user
+                # he or she may continue anyway if desired
+                if gw.converged:
+                    print("This episode did not change the recommended policies.")
+                else:
+                    print("Policy has been updated.")
+                manageIO.printPolicy(gw)
 
-        print("The suggested q-values after convergence of policies are:")
-        manageIO.printValues(test)
+            print("The suggested q-values after convergence of policies are:")
+            manageIO.printValues(gw)
