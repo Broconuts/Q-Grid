@@ -1,5 +1,6 @@
 import manageIO
 import calculate
+import numpy as np
 
 class Gridworld:
     '''
