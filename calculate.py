@@ -7,29 +7,26 @@ def selectAction(Gridworld, state):
     :return: the action to execute next
     '''
 
-    rand = random.random()
     maxaction = Gridworld.grid[state].max
     # TODO: can we also use Gridworld.actions for this or is it mutable (i.e. would removing the max value for this function remove 
     # an actual entry from the original array)?
     possibleactions = [0, 1, 2, 3]
     # if chance for following optimal policy is met
-    if rand < (1- Gridworld.epsilon + Gridworld.epsilon / len(Gridworld.actions):
+    if random.random() < (1- Gridworld.epsilon + Gridworld.epsilon / len(Gridworld.actions)):
         # return action that is currently deemed to be the most valuable one
         return maxaction
-    # TODO: if we implement the formula from the slides, we only get a total probability of 0.8 to do an action
-    # not sure if that is correct and that there is a .2 chance of not doing anything?
-    elif rand < (Gridworld.epsilon/len(Gridworld.actions)):
-        max.remove(maxaction)
-        return random.choice(possibleactions)
+    # if chance for optimal policy isn't met, the three remaining options are tried 
+    elif random.random() < (Gridworld.epsilon/len(Gridworld.actions)):
+        possibleactions.remove(maxaction)
+        return possibleactions[0]
 
+    elif random.random() < (Gridworld.epsilon/len(Gridworld.actions)):
+        possibleactions.remove(maxaction)
+        return possibleactions[1]
 
-def derivePolicy(Gridworld):
-    '''
-    make a policy which always chooses the action with the highest q-value
-    :return: greedy policy
-    '''
-
-    #TODO: write the code for derivePolicy
+    elif random.random() < (Gridworld.epsilon/len(Gridworld.actions)):
+        possibleactions.remove(maxaction)
+        return possibleactions[2]
 
 
 def qUpdate(Gridworld, state, action, nextstate):

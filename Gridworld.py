@@ -44,7 +44,7 @@ class Gridworld:
         iterations = 0
         # run this until we reach a goalstate
         #TODO: check if a two-dimensional array can be accessed like this
-        while self.grid[currentstate].type != "E" and self.grid[currentstate].type != "P":
+        while self.grid[currentstate[0]][currentstate[1]].type != "E" and self.grid[currentstate[0]][currentstate[1]].type != "P":
             # determine action (epsilon-soft)
             action = calculate.selectAction(self, currentstate)
             # determine the next state given our current state and the chosen action
