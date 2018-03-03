@@ -80,4 +80,4 @@ class Cell:
         The highest q-Value in our cell.
         '''
         val = self.get_qValue(self._max)
-        return (self._max, val)
+        return (val)
