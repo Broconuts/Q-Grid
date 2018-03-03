@@ -17,16 +17,17 @@ def printPolicy(Gridworld):
     print("\n", end="")
     for i in range(len(Gridworld.grid)):
         for j in range(len(Gridworld.grid[0])):
+            cell = Gridworld.grid[i][j]
             # prints a symbol representing the direction that the policy for a given field in the grid
             # is indicating
-            if (Gridworld.grid[i][j].policy == 0):
+            if (cell._max == 0):
                 print("^", end=" ")
-            elif (Gridworld.grid[i][j].policy == 2):
-                print("v", end=" ")
-            elif (Gridworld.grid[i][j].policy == 1):
-                print("<", end=" ")
-            elif (Gridworld.grid[i][j].policy == 3):
+            elif (cell._max == 1):
                 print(">", end=" ")
+            elif (cell._max == 2):
+                print("v", end=" ")
+            elif (cell._max == 3):
+                print("<", end=" ")
             else:
                 print("o", end=" ")
         print("\n", end="")

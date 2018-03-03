@@ -80,6 +80,7 @@ if __name__ == '__main__':
 
         print("The suggested q-values after convergence of policies are:")
         manageIO.printQValues(gw)
+        manageIO.printPolicy(gw)
 
     # if semi-automatic or manual processing mode is chosen
     else:
