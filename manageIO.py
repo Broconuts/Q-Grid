@@ -23,11 +23,11 @@ def printPolicy(Gridworld):
             if (cell._max == 0):
                 print("^", end=" ")
             elif (cell._max == 1):
-                print(">", end=" ")
-            elif (cell._max == 2):
                 print("v", end=" ")
-            elif (cell._max == 3):
+            elif (cell._max == 2):
                 print("<", end=" ")
+            elif (cell._max == 3):
+                print(">", end=" ")
             else:
                 print("o", end=" ")
         print("\n", end="")

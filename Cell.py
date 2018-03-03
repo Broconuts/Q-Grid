@@ -17,11 +17,14 @@ class Cell:
     def __init__(self, actions, type):
         self._type = type
         self._policy = 0
+        self._max = 0 # idx of maximal qValue
+        # free fiels get q-value array
         if self._type == "F":
             self._qValues = np.zeros(actions)
+        # other fields get their type as array and max-index of -1
         else:
             self._qValues = [type, type, type, type]
-        self._max = 0 # idx of maximal qValue
+            self._max = -1
 
 
     @property
