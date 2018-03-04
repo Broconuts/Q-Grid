@@ -1,11 +1,4 @@
 import numpy as np
-from enum import IntEnum
-
-class Action:
-    UP = 0
-    DOWN = 1
-    LEFT = 2
-    RIGHT = 3
 
 class Cell:
     '''
@@ -73,24 +66,28 @@ class Cell:
         :param: val: the value we want to save
         :param: Gridworld: the gridworld we operate in
         '''
-        #print("Old qValue in Cell:" + str(self._qValues[idx]))
-        #print("New qValue in Cell:" + str(self._qValues[idx]))
+        # save the old maximum
         old_max = self.get_qValue(self._max)
+        # assign the value that should be updated
         self._qValues[idx] = val
-        #print("New qValue in Cell:" + str(self._qValues[idx]))
 
-
+        # if new value is bigger than the old maximum
         if val > old_max:
+            # if the action has not been the maximal action before
+            # assign this action and the index to be the highest
             if idx != self._max:
                 self._max = idx
                 self._policy = idx
-                Gridworld.converged = False
+                Gridworld.converged = False #policy changed, so no convergence
+        # if the value is smaller than the old maximum
+        # we need to check if this was the old maximum and change that
         elif val < old_max:
             if idx == self._max:
+                # find the new highest value and set it as the maximum index
                 new_highest_qVal = max(self._qValues)
                 new_index = self._qValues.index(new_highest_qVal)
                 self._max = new_index
-                Gridworld.converged = False
+                Gridworld.converged = False #policy changed, so no convergence
 
 
     @property
@@ -102,6 +99,13 @@ class Cell:
         return (val)
 
     def get_print_string(self):
+        '''
+        Returns the qValues as fairly formatted strings
+        :return: two lines of q-Values for strings
+        '''
+
+        #get values for up and down
         pristri1 =  str(self.get_qValue(0)) + " , " + str(self.get_qValue(1))
+        #get values for left and right
         pristri2 =  str(self.get_qValue(2)) + " , " + str(self.get_qValue(3))
         return " (" + pristri1 + ") " + "\n" + " (" + pristri2 + ") "
