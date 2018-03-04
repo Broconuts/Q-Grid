@@ -36,20 +36,37 @@ def qUpdate(Gridworld, state, action, nextstate):
     # determine the immediate reward for performing a given action in the current state
     # by seeing the immediate reward provided by the next state
     im_reward = immediateReward(Gridworld, nextstate)
+    print("imediate reward: " + str(im_reward))
+    cell = Gridworld.grid[state[0]][state[1]]
+    nextcell = Gridworld.grid[nextstate[0]][nextstate[1]]
 
     # assigments for easier access
-    old_qVal = Gridworld.grid[state[0]][state[1]].get_qValue(action)
-    next_qMax = Gridworld.grid[nextstate[0]][nextstate[1]].max_qValue
+    old_qVal = cell.get_qValue(action)
+    print("old_qVal: " + str(old_qVal))
 
-    #q(s,a) + alpha * (reward + gamma * max q(s,a) - q(s,a) )
-    '''
-    new_qVal = old_qVal + Gridworld.alpha * \
-               (im_reward + Gridworld.GAMMA * cell._max - old_qVal)
-    '''
-    q = old_qVal + Gridworld.alpha * (im_reward + Gridworld.GAMMA * next_qMax - old_qVal)
+    #check what type the next cell is
+    if nextcell._type == "F":
+        next_qMax = nextcell.get_qValue(nextcell._max)
+    elif nextcell._type == "E":
+        next_qMax = Gridworld.GOAL
+    elif nextcell._type == "P":
+        next_qMax = Gridworld.PITFALL
+
+    print("next qMax: " + str(next_qMax))
+
+    #if we stay in the same cell, we only substract -0.04
+    if(nextcell == cell):
+        q = Gridworld.REWARD
+    else:
+        #q(s,a) + alpha * (reward + gamma * max q(s,a) - q(s,a) )
+        '''
+        new_qVal = old_qVal + Gridworld.alpha * \
+                   (im_reward + Gridworld.GAMMA * cell._max - old_qVal)
+        '''
+        q = old_qVal + Gridworld.alpha * (im_reward + (Gridworld.GAMMA * next_qMax) - old_qVal)
 
     # update the q value for the cell
-    Gridworld.grid[state[0]][state[1]].set_qValue(action, q, Gridworld)
+    cell.set_qValue(action, q, Gridworld)
 
 
 def immediateReward(Gridworld, next):
