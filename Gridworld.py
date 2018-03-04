@@ -49,7 +49,6 @@ class Gridworld:
         # set the current state to its initial position
         currentstate = (0, 0)
 
-
         # run this until we reach a goalstate
         while self.grid[currentstate[0]][currentstate[1]].type != "E" and self.grid[currentstate[0]][currentstate[1]].type != "P":
             # determine action (epsilon-soft)
@@ -65,6 +64,7 @@ class Gridworld:
             if self.processingMode == "m":
                 print("Updated q-values:")
                 manageIO.printQValues(self)
+                print("Updated policy:")
                 manageIO.printPolicy(self)
 
             # move from current state to next state
@@ -93,26 +93,11 @@ class Gridworld:
         return False
 
 
-if __name__ == '__main__':
-    gw = Gridworld()
-    manageIO.readUserInput(gw);
-
-    # if fully automatic processing mode is chosen
-    if gw.processingMode == "a":
-        # run episodes until stopping criterion (convergence) is met
-        while not gw.checkForConvergence():
-            # setting converged to True before each episode. Will be set
-            # to false as soon as a single greedy policy is changed
-            gw.converged = True
-            gw.runEpisode()
-
-
-        print("The suggested q-values after convergence of policies are:")
-        manageIO.printQValues(gw)
-        manageIO.printPolicy(gw)
-
-    # if semi-automatic or manual processing mode is chosen
-    else:
+    def manualOperation(self):
+        '''
+        Operating mode where user is asked after each episode if he/she
+        wants to continue.
+        '''
         # run initial episode
         gw.runEpisode()
 
@@ -126,10 +111,42 @@ if __name__ == '__main__':
             # if convergence has occurred, notify user
             # he or she may continue anyway if desired
             if gw.checkForConvergence():
-                print("Your set convergence criterion has been met.")
+                print("Policy has been updated. Your set convergence criterion has been met.")
             else:
-                print("Policy has been updated.")
+                print("Policy has been updated. The convergence criterion has not yet been met.")
             manageIO.printPolicy(gw)
 
         print("The suggested q-values after convergence of policies are:")
         manageIO.printQValues(gw)
+
+
+    def automaticOperation(self):
+        '''
+        Operating mode where program automatically generates episodes until 
+        convergence criterion has been met. It will then notify the user and
+        print the results.
+        '''
+        # run episodes until stopping criterion (convergence) is met
+        while not gw.checkForConvergence():
+            # setting converged to True before each episode. Will be set
+            # to false as soon as a single greedy policy is changed
+            gw.converged = True
+            gw.runEpisode()
+
+
+        print("The suggested q-values after convergence of policies are:")
+        manageIO.printQValues(gw)
+        print("The resulting policy from these values is:")
+        manageIO.printPolicy(gw)
+
+
+if __name__ == '__main__':
+    gw = Gridworld()
+    manageIO.readUserInput(gw)
+
+    # if fully automatic processing mode is chosen
+    if gw.processingMode == "a":
+        gw.automaticOperation()
+    else:
+        gw.manualOperation()
+        
