@@ -162,6 +162,9 @@ if __name__ == '__main__':
     # if fully automatic processing mode is chosen
     if gw.processingMode == "a":
         gw.automaticOperation()
+    # if manual processing mode is chosen
+    # (differentiation between full manual and semi-manual
+    # occurs in the runEpisode() function)
     else:
         gw.manualOperation()
         
