@@ -22,8 +22,12 @@ def printPolicy(Gridworld):
                 print("<", end=" ")
             elif (cell._max == 3):
                 print(">", end=" ")
+            elif (cell.type == 'E'):
+                print("E", end=" ")
+            elif (cell.type == 'P'):
+                print("P", end=" ")
             else:
-                print("o", end=" ")
+                print("O", end=" ")
         print("\n", end="")
 
 
