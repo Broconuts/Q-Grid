@@ -3,22 +3,24 @@ import sys
 
 def selectAction(Gridworld, state):
     '''
-    Selects the action with the highest q-value for the given state and updates the policy according to the epsilon-soft policy
+    Selects the action with the highest q-value for the given state
+    then the policy is updated according to the epsilon-soft policy
+
     :param state: a tuple with the coordinates of the current state
     :return: the action to execute next
     '''
 
-    # TODO: check whether this actually causes problems or not
+    #get the action with the highest qValue
     maxaction = Gridworld.grid[state[0]][state[1]].max
-    # TODO: can we also use Gridworld.actions for this or is it mutable (i.e. would removing the max value for this function remove 
-    # an actual entry from the original array)?
     possibleActions = [0, 1, 2, 3]
+
     # if chance for following optimal policy is met
     if random.random() < (1- Gridworld.epsilon + Gridworld.epsilon / len(Gridworld.actions)):
         # return action that is currently deemed to be the most valuable one
         return maxaction
     # if chance for optimal policy isn't met, on of the others returned randomly
     else:
+        # remove the best action and choose one of the others randomly
         possibleActions.remove(maxaction)
         return random.choice(possibleActions)
 
@@ -36,30 +38,28 @@ def qUpdate(Gridworld, state, action, nextstate):
     # determine the immediate reward for performing a given action in the current state
     # by seeing the immediate reward provided by the next state
     im_reward = immediateReward(Gridworld, nextstate)
-    print("imediate reward: " + str(im_reward))
+
+    # assign cells for easier access
     cell = Gridworld.grid[state[0]][state[1]]
     nextcell = Gridworld.grid[nextstate[0]][nextstate[1]]
 
     # assigments for easier access
     old_qVal = cell.get_qValue(action)
-    print("old_qVal: " + str(old_qVal))
 
     #check what type the next cell is
+    # it can not be an obstacle, since we check that in nextState
+
     if nextcell._type == "F":
+        # normal behaviour: select maximal qValue of the next cell
         next_qMax = nextcell.get_qValue(nextcell._max)
     elif nextcell._type == "E":
+        # if the next cell is the goal, the value is the GOAL value
         next_qMax = Gridworld.GOAL
     elif nextcell._type == "P":
+        # if the next cell is the Pitfall, the value is the Pitfall value
         next_qMax = Gridworld.PITFALL
 
-    print("next qMax: " + str(next_qMax))
-
-
-    #q(s,a) + alpha * (reward + gamma * max q(s,a) - q(s,a) )
-    '''
-    new_qVal = old_qVal + Gridworld.alpha * \
-               (im_reward + Gridworld.GAMMA * cell._max - old_qVal)
-    '''
+    #formula: q(s,a) + alpha * (reward + gamma * max q(s,a) - q(s,a) )
     q = old_qVal + Gridworld.alpha * (im_reward + (Gridworld.GAMMA * next_qMax) - old_qVal)
 
     # update the q value for the cell
