@@ -21,6 +21,7 @@ class Cell:
         # free fiels get q-value array
         if self._type == "F":
             self._qValues = np.zeros(actions)
+            self._qValues = [0 for x in range(actions)]
         # other fields get their type as array and max-index of -1
         else:
             self._qValues = [type, type, type, type]
@@ -42,7 +43,7 @@ class Cell:
         '''
         return self._type
 
-    
+
     @property
     def max(self):
         '''
@@ -73,15 +74,18 @@ class Cell:
         :param: Gridworld: the gridworld we operate in
         '''
         #print("Old qValue in Cell:" + str(self._qValues[idx]))
+        #print("New qValue in Cell:" + str(self._qValues[idx]))
+        old_max = self.get_qValue(self._max)
         self._qValues[idx] = val
         #print("New qValue in Cell:" + str(self._qValues[idx]))
 
-        if val > self.get_qValue(self._max):
+
+        if val > old_max:
             if idx != self._max:
                 self._max = idx
                 self._policy = idx
                 Gridworld.converged = False
-        elif val < self.get_qValue(self._max):
+        elif val < old_max:
             if idx == self._max:
                 new_highest_qVal = max(self._qValues)
                 new_index = self._qValues.index(new_highest_qVal)
@@ -101,4 +105,3 @@ class Cell:
         pristri1 =  str(self.get_qValue(0)) + " , " + str(self.get_qValue(1))
         pristri2 =  str(self.get_qValue(2)) + " , " + str(self.get_qValue(3))
         return " (" + pristri1 + ") " + "\n" + " (" + pristri2 + ") "
-    np.round
