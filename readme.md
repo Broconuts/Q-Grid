@@ -14,6 +14,7 @@ You will be asked for several values that will determine the algorithms runtime 
   - manual: stepwise for each episode, matrix for each step
   - semi-automatic: each episode automatic, matrices printed after that
   - automatic: complete algorithm, matrices printed once in the end
+- convergence criterion: how many consecutive episodes do not cause a change in the greedy behavior policy
 - gamma value = discount factor
 - epsilon = for epsilon soft policy
 - alpha = learning rate
@@ -50,3 +51,5 @@ Program must be able to perform the following:
 Remark regarding test files:
 The Program only has to perform on the 3by4.grid file. It can also be tested on bigger grids but the runtime of the algorithm might be considerably higher.
 
+
+The repository for this project can be found under this link: https://github.com/Broconuts/Q-Grid
