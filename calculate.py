@@ -87,8 +87,8 @@ def nextState(Gridworld, state, action):
     # get the indexshift for the according action
     def indact(ind):
         return {
-            0: (1,0),
-            1: (-1,0),
+            0: (-1,0),
+            1: (1,0),
             2: (0,-1),
             3: (0,1),
         }[ind]
