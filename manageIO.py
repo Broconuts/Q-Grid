@@ -146,12 +146,18 @@ def readUserInput(Gridworld):
     while alpha > 1.0 or alpha < 0.0:
         alpha = float(input("Please specify a learning rate alpha value between 0 and 1: "))
 
+    # read in convergence criterion
+    convergencecriterion = int(input("Please specify how many iterations in a row the policy should stay the same for convergence: "))
+    while convergencecriterion <= 0:
+        convergencecriterion = int(input("Please specify how many iterations in a row the policy should stay the same for convergence: "))
+
     # assign the values to the Gridworld
     Gridworld.field = grid #not grid since it will be converted into cells
     Gridworld.processingMode = processingMode.lower()
     Gridworld.gamma = gamma
     Gridworld.alpha = alpha
     Gridworld.epsilon = epsilon
+    Gridworld.convergencecriterion = convergencecriterion
 
     # check for correctness of input
     # since it is absolutely up to the user which values these variables take
