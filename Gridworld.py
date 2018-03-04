@@ -67,26 +67,26 @@ class Gridworld:
         print("Number of iterations: " + str(iterations))
 
 
-def checkForConvergence(self):
-    '''
-    Checks if convergence criterion is met.
-    :returns: True when convergence criterion is met, False when it is not
-    ''' 
-    # if episode finished without changing policies, increase
-    # convergence counter
-    if self.converged = True:
-        self.convergencecounter += 1
-    # if a policy was changed during an episode, reset convergence counter
-    else:
-        self.convergencecounter = 0
-    
-    # if the amount of episodes that have finished without changing policies
-    # matches the set criterion when we deem the policies to have converged,
-    # return True
-    if self.convergencecounter == self.convergencecriterion:
-        return True
-    
-    return False
+    def checkForConvergence(self):
+        '''
+        Checks if convergence criterion is met.
+        :returns: True when convergence criterion is met, False when it is not
+        ''' 
+        # if episode finished without changing policies, increase
+        # convergence counter
+        if self.converged == True:
+            self.convergencecounter += 1
+        # if a policy was changed during an episode, reset convergence counter
+        else:
+            self.convergencecounter = 0
+        
+        # if the amount of episodes that have finished without changing policies
+        # matches the set criterion when we deem the policies to have converged,
+        # return True
+        if self.convergencecounter == self.convergencecriterion:
+            return True
+        
+        return False
 
 
 if __name__ == '__main__':
