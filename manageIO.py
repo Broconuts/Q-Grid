@@ -153,6 +153,26 @@ def readUserInput(Gridworld):
     Gridworld.alpha = alpha
     Gridworld.epsilon = epsilon
 
-    Gridworld.REWARD = float(input("Please specify the reward (or penalty) for each step: "))
-    Gridworld.GOAL = float(input("Please specify the reward of the goal state: "))
-    Gridworld.PITFALL = float(input("Please specify the penalty for the pitfall state: "))
+    # check for correctness of input
+    # since it is absolutely up to the user which values these variables take
+    # we only check for input type
+    try:
+        Gridworld.REWARD = input("Please specify the reward (or penalty) for each step: ")
+        if ("exit" in Gridworld.REWARD.lower()):
+            sys.exit()
+        Gridworld.REWARD = float(Gridworld.REWARD)
+        
+        Gridworld.GOAL = input("Please specify the reward of the goal state: ")
+        if ("exit" in Gridworld.GOAL.lower()):
+            sys.exit()
+        Gridworld.GOAL = float(Gridworld.GOAL)
+        
+        Gridworld.PITFALL = input("Please specify the penalty for the pitfall state: ")
+        if ("exit" in Gridworld.PITFALL.lower()):
+            sys.exit()
+        Gridworld.PITFALL = float(Gridworld.PITFALL)
+    
+    except ValueError:
+        print("Stop this tomfoolery and enter a float value between 0 and 1! Try again next time.")
+        sys.exit()
+
