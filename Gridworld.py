@@ -13,11 +13,11 @@ class Gridworld:
     def __init__(self):
         self.actions = ["up", "down", "left", "right"]
         self.processingMode = "a"
-        field = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
-        self.grid = np.zeros((len(field), len(field[0])), dtype=Cell.Cell)
-        for r in range(len(field)):
-            for c in range(len(field[0])):
-                self.grid[r, c] = Cell.Cell(len(self.actions), field[r][c])
+        self.field = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
+        self.grid = np.zeros((len(self.field), len(self.field[0])), dtype=Cell.Cell)
+        for r in range(len(self.field)):
+            for c in range(len(self.field[0])):
+                self.grid[r, c] = Cell.Cell(len(self.actions), self.field[r][c])
 
         self.converged = False
         self.convergencecriterion = 2
@@ -28,7 +28,7 @@ class Gridworld:
         self.REWARD = -0.04
         self.PITFALL = -1
         self.GOAL = 1
-        self.ITERATIONS = 1
+
 
     def runEpisode(self):
         '''
@@ -44,7 +44,7 @@ class Gridworld:
         # set the current state to its initial position (bottom left corner)
         currentstate = (1, 0)
 
-        iterations = 0
+
         # run this until we reach a goalstate
         # TODO: check if a two-dimensional array can be accessed like this
         while self.grid[currentstate[0]][currentstate[1]].type != "E" and self.grid[currentstate[0]][currentstate[1]].type != "P":
@@ -64,10 +64,7 @@ class Gridworld:
                 manageIO.printPolicy(self)
             # move from current state to next state
             currentstate = nextstate
-            iterations = iterations + 1
-
-        print("Number of iterations: " + str(iterations))
-
+            
 
     def checkForConvergence(self):
         '''
@@ -113,7 +110,7 @@ class Gridworld:
 
 if __name__ == '__main__':
     gw = Gridworld()
-    # manageIO.readUserInput(gw); Habe ein Grid als default gesetzt
+    manageIO.readUserInput(gw);
 
     # if fully automatic processing mode is chosen
     if gw.processingMode == "a":
@@ -123,12 +120,11 @@ if __name__ == '__main__':
             # to false as soon as a single greedy policy is changed
             gw.converged = True
             gw.runEpisode()
-            gw.ITERATIONS += gw.ITERATIONS
+
 
         print("The suggested q-values after convergence of policies are:")
         manageIO.printQValues(gw)
         manageIO.printPolicy(gw)
-        print("Number of iterations: " + str(gw.ITERATIONS))
 
     # if semi-automatic or manual processing mode is chosen
     else:

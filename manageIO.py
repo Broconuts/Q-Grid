@@ -147,7 +147,7 @@ def readUserInput(Gridworld):
         alpha = float(input("Please specify a learning rate alpha value between 0 and 1: "))
 
     # assign the values to the Gridworld
-    Gridworld.grid = grid
+    Gridworld.field = grid #not grid since it will be converted into cells
     Gridworld.processingMode = processingMode.lower()
     Gridworld.gamma = gamma
     Gridworld.alpha = alpha
