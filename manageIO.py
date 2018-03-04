@@ -1,13 +1,6 @@
 from itertools import chain, zip_longest
 import Gridworld
-
-def printQValues(Gridworld):
-    '''
-    Prints values of action to change from one state to another.
-    '''
-
-    #TODO: write the code for printQValues
-
+import sys
 
 def printPolicy(Gridworld):
     '''
@@ -54,6 +47,10 @@ def printQValues(Gridworld):
     '''
     Prints values of action to change from one state to another.
     '''
+    print("Key:")
+    print("(up, down)")
+    print("(left, right)")
+    print("\n")
 
     # creates an array of strings from the print strings from all cells
     table = []

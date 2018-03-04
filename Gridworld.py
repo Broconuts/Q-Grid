@@ -74,7 +74,7 @@ def checkForConvergence(self):
     ''' 
     # if episode finished without changing policies, increase
     # convergence counter
-    if self.converged = True:
+    if self.converged == True:
         self.convergencecounter += 1
     # if a policy was changed during an episode, reset convergence counter
     else:
