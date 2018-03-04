@@ -1,4 +1,5 @@
 import random
+import sys
 
 def selectAction(Gridworld, state):
     '''
@@ -7,7 +8,8 @@ def selectAction(Gridworld, state):
     :return: the action to execute next
     '''
 
-    maxaction = Gridworld.grid[state].max
+    # TODO: check whether this actually causes problems or not
+    maxaction = Gridworld.grid[state[0]][state[1]].max
     # TODO: can we also use Gridworld.actions for this or is it mutable (i.e. would removing the max value for this function remove 
     # an actual entry from the original array)?
     possibleActions = [0, 1, 2, 3]
@@ -36,17 +38,18 @@ def qUpdate(Gridworld, state, action, nextstate):
     im_reward = immediateReward(Gridworld, nextstate)
 
     # assigments for easier access
-    row = state[0]
-    column = state[1]
-    cell = Gridworld.grid[row][column]
-    old_qVal = cell._qValues[action]
+    old_qVal = Gridworld.grid[state[0]][state[1]].get_qValue(action)
+    next_qMax = Gridworld.grid[nextstate[0]][nextstate[1]].max_qValue
 
     #q(s,a) + alpha * (reward + gamma * max q(s,a) - q(s,a) )
+    '''
     new_qVal = old_qVal + Gridworld.alpha * \
                (im_reward + Gridworld.GAMMA * cell._max - old_qVal)
+    '''
+    q = old_qVal + Gridworld.alpha * (im_reward + Gridworld.GAMMA * next_qMax - old_qVal)
 
     # update the q value for the cell
-    cell.set_qValue(action, new_qVal, Gridworld)
+    Gridworld.grid[state[0]][state[1]].set_qValue(action, q, Gridworld)
 
 
 def immediateReward(Gridworld, next):
@@ -70,7 +73,7 @@ def immediateReward(Gridworld, next):
         return Gridworld.PITFALL
     else:
         print("Field Type not found! Problem in immediateReward")
-        exit(1)
+        sys.exit()
 
 
 def nextState(Gridworld, state, action):

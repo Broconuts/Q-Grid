@@ -12,7 +12,7 @@ class Gridworld:
 
     def __init__(self):
         self.actions = ["up", "down", "left", "right"]
-        self.processingMode = "s"
+        self.processingMode = "m"
         field = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
         self.grid = np.zeros((len(field), len(field[0])), dtype=Cell.Cell)
         for r in range(len(field)):
@@ -59,7 +59,7 @@ class Gridworld:
             # TODO: this if-condition may increase runtime noticeably. Check this.
             if self.processingMode == "m":
                 print("Updated q-values:")
-                manageIO.printValues(self)
+                manageIO.printQValues(self)
             # move from current state to next state
             currentstate = nextstate
             iterations = iterations + 1
