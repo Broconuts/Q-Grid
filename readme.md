@@ -14,6 +14,7 @@ You will be asked for several values that will determine the algorithms runtime 
   - manual: stepwise for each episode, matrix for each step
   - semi-automatic: each episode automatic, matrices printed after that
   - automatic: complete algorithm, matrices printed once in the end
+- convergence criterion: how many consecutive episodes do not cause a change in the greedy behavior policy
 - gamma value = discount factor
 - epsilon = for epsilon soft policy
 - alpha = learning rate
