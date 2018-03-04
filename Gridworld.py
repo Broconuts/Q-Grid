@@ -11,6 +11,11 @@ class Gridworld:
     '''
 
     def __init__(self):
+        '''
+        initialize the Gridworld
+        default values, but user input will override them
+        '''
+
         self.actions = ["up", "down", "left", "right"]
         self.processingMode = "a"
         self.field = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
@@ -20,7 +25,7 @@ class Gridworld:
                 self.grid[r, c] = Cell.Cell(len(self.actions), self.field[r][c])
 
         self.converged = False
-        self.convergencecriterion = 2
+        self.convergencecriterion = 3
         self.convergencecounter = 0
         self.epsilon = 0.9
         self.alpha = 0.3
@@ -41,51 +46,31 @@ class Gridworld:
         has chosen the single-episode mode or the full-automatic mode).
         '''
 
-        # set the current state to its initial position (bottom left corner)
-        currentstate = (1, 0)
+        # set the current state to its initial position
+        currentstate = (0, 0)
 
 
         # run this until we reach a goalstate
-        # TODO: check if a two-dimensional array can be accessed like this
         while self.grid[currentstate[0]][currentstate[1]].type != "E" and self.grid[currentstate[0]][currentstate[1]].type != "P":
             # determine action (epsilon-soft)
             action = calculate.selectAction(self, currentstate)
-            print("Action: " + self.actions[action])
+
             # determine the next state given our current state and the chosen action
             nextstate = calculate.nextState(self, currentstate, action)
-            print("nextstate: " + str(nextstate))
+
             # update the value function for this state-action pair
             calculate.qUpdate(self, currentstate, action, nextstate)
+
             # for manual processing: print the now updated value function
-            # TODO: this if-condition may increase runtime noticeably. Check this.
             if self.processingMode == "m":
                 print("Updated q-values:")
                 manageIO.printQValues(self)
                 manageIO.printPolicy(self)
+
             # move from current state to next state
             currentstate = nextstate
             
 
-    def checkForConvergence(self):
-        '''
-        Checks if convergence criterion is met.
-        :returns: True when convergence criterion is met, False when it is not
-        '''
-        # if episode finished without changing policies, increase
-        # convergence counter
-        if self.converged == True:
-            self.convergencecounter += 1
-        # if a policy was changed during an episode, reset convergence counter
-        else:
-            self.convergencecounter = 0
-
-        # if the amount of episodes that have finished without changing policies
-        # matches the set criterion when we deem the policies to have converged,
-        # return True
-        if self.convergencecounter == self.convergencecriterion:
-            return True
-
-        return False
     def checkForConvergence(self):
         '''
         Checks if convergence criterion is met.
