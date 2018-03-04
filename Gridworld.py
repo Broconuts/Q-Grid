@@ -24,7 +24,7 @@ class Gridworld:
         self.convergencecounter = 0
         self.epsilon = 0.9
         self.alpha = 0.3
-        self.GAMMA = 1
+        self.GAMMA = 0.8
         self.REWARD = -0.04
         self.PITFALL = -1
         self.GOAL = 1

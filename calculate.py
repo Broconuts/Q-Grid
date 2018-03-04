@@ -54,16 +54,13 @@ def qUpdate(Gridworld, state, action, nextstate):
 
     print("next qMax: " + str(next_qMax))
 
-    #if we stay in the same cell, we only substract -0.04
-    if(nextcell == cell):
-        q = old_qVal + Gridworld.REWARD
-    else:
-        #q(s,a) + alpha * (reward + gamma * max q(s,a) - q(s,a) )
-        '''
-        new_qVal = old_qVal + Gridworld.alpha * \
-                   (im_reward + Gridworld.GAMMA * cell._max - old_qVal)
-        '''
-        q = old_qVal + Gridworld.alpha * (im_reward + (Gridworld.GAMMA * next_qMax) - old_qVal)
+
+    #q(s,a) + alpha * (reward + gamma * max q(s,a) - q(s,a) )
+    '''
+    new_qVal = old_qVal + Gridworld.alpha * \
+               (im_reward + Gridworld.GAMMA * cell._max - old_qVal)
+    '''
+    q = old_qVal + Gridworld.alpha * (im_reward + (Gridworld.GAMMA * next_qMax) - old_qVal)
 
     # update the q value for the cell
     cell.set_qValue(action, q, Gridworld)
