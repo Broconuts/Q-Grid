@@ -56,7 +56,7 @@ def qUpdate(Gridworld, state, action, nextstate):
 
     #if we stay in the same cell, we only substract -0.04
     if(nextcell == cell):
-        q = Gridworld.REWARD
+        q = old_qVal + Gridworld.REWARD
     else:
         #q(s,a) + alpha * (reward + gamma * max q(s,a) - q(s,a) )
         '''

@@ -12,7 +12,7 @@ class Gridworld:
 
     def __init__(self):
         self.actions = ["up", "down", "left", "right"]
-        self.processingMode = "m"
+        self.processingMode = "a"
         field = [['F', 'F', 'F', 'E'], ['F', 'O', 'F', 'P'], ['F', 'F', 'F', 'F']]
         self.grid = np.zeros((len(field), len(field[0])), dtype=Cell.Cell)
         for r in range(len(field)):
@@ -22,8 +22,8 @@ class Gridworld:
         self.converged = False
         self.convergencecriterion = 2
         self.convergencecounter = 0
-        self.epsilon = 0.5
-        self.alpha = 0.5
+        self.epsilon = 0.9
+        self.alpha = 0.3
         self.GAMMA = 1
         self.REWARD = -0.04
         self.PITFALL = -1
@@ -42,7 +42,7 @@ class Gridworld:
         '''
 
         # set the current state to its initial position (bottom left corner)
-        currentstate = (len(self.grid) - 1, 0)
+        currentstate = (1, 0)
 
         iterations = 0
         # run this until we reach a goalstate
@@ -123,10 +123,12 @@ if __name__ == '__main__':
             # to false as soon as a single greedy policy is changed
             gw.converged = True
             gw.runEpisode()
+            gw.ITERATIONS += gw.ITERATIONS
 
         print("The suggested q-values after convergence of policies are:")
         manageIO.printQValues(gw)
         manageIO.printPolicy(gw)
+        print("Number of iterations: " + str(gw.ITERATIONS))
 
     # if semi-automatic or manual processing mode is chosen
     else:
